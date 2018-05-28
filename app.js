@@ -72,7 +72,7 @@ function Esegui(reply)
         else{
             console.log(rowcount+' Rows');
             reply(righe);
-            console.log(righe);
+            console.log(JSON.stringify(righe));
         }
     });
     request.on('row',function(columns){
@@ -81,7 +81,7 @@ function Esegui(reply)
             JSON.stringify(riga[column.metadata.colName]=column.value);
             console.log(riga);
         });
-        righe.push(JSON.stringify(riga));
+        righe.push(riga);
 
     });
     conn.execSql(request);
