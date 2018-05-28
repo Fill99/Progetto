@@ -80,7 +80,7 @@ function Esegui(reply)
             riga[column.metadata.colName]=column.value;
             console.log(riga);
         });
-        righe.push(JSON.stringify(riga));
+        righe.push(riga);
 
     });
     conn.execSql(request);
