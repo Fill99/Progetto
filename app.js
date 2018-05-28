@@ -72,13 +72,13 @@ function Esegui(reply)
         else{
             console.log(rowcount+' Rows');
             reply(righe);
-            console.log(JSON.stringify(righe));
+            console.log(righe);
         }
     });
     request.on('row',function(columns){
         riga={};
         columns.forEach(function(column){
-            JSON.stringify(riga[column.metadata.colName]=column.value);
+        riga[column.metadata.colName]=column.value;
             console.log(riga);
         });
         righe.push(riga);
