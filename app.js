@@ -72,7 +72,7 @@ function Esegui(reply)
         else{
             console.log(rowcount+' Rows');
             reply(righe);
-            console.log(JSON.stringify(righe));
+            console.log(righe);
         }
     });
     request.on('row',function(columns){
