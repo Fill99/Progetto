@@ -77,10 +77,10 @@ function Esegui(reply)
     request.on('row',function(columns){
         riga={};
         columns.forEach(function(column){
-            riga[column.metadata.colName]=column.value;
+            JSON.parse(riga[column.metadata.colName]=column.value);
             console.log(riga);
         });
-        righe.push(JSON.parse(riga));
+        righe.push(riga);
 
     });
     conn.execSql(request);
