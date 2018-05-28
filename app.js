@@ -71,7 +71,7 @@ function Esegui(reply)
         }
         else{
             console.log(rowcount+' Rows');
-            reply(JSON.parse(righe));
+            reply(righe);
             console.log(righe);
         }
     });
