@@ -78,7 +78,7 @@ function Esegui(reply)
     request.on('row',function(columns){
         riga={};
         columns.forEach(function(column){
-            riga[column.metadata.colName]=column.value;
+            JSON.stringify(riga[column.metadata.colName]=column.value);
             console.log(riga);
         });
         righe.push(riga);
