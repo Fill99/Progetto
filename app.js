@@ -79,7 +79,6 @@ function Esegui(reply)
         riga={};
         columns.forEach(function(column){
         riga[column.metadata.colName]=column.value;
-            console.log(riga);
         });
         righe.push(riga);
 
