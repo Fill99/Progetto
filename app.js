@@ -56,7 +56,7 @@ server.route({
            }
            else{
                console.log('Connected to database');
-               Selezione_Partenza(reply,conn,request.query.indirizzo);
+               Selezione_Linea(reply,conn,request.query.indirizzo);
            }
        });
     }
@@ -74,7 +74,7 @@ server.route({
            }
            else{
                console.log('Connected to database');
-               Selezione_Partenza(reply,conn,request.query.indirizzo);
+               Selezione_Linea(reply,conn,request.query.indirizzo);
            }
        });
     }
@@ -115,7 +115,7 @@ function Esegui(conn, reply) {
 }
 
 
-function Selezione_Partenza(reply,conn,indirizzo)
+function Selezione_Linea(reply,conn,indirizzo)
 {
     var righe=[];
     var riga={};
