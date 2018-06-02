@@ -46,13 +46,21 @@ server.route({
 
 server.route({
     method:'GET',
-    path:'/paperino',
-    handler:function(request,reply)
-    {
-        reply(request.query.nome);
+    path:'/querypartenza',
+    handler:function(request,reply){
+       var conn=new Connection(config);
+       conn.on('connect',function(err){
+           if(err)
+           {
+               console.log(err);
+           }
+           else{
+               console.log('Connected to database');
+               Selezione_Partenza(reply,conn,request);
+           }
+       });
     }
 });
-
 server.start(function (err) {
     if (err) {
         console.log(err);
@@ -89,8 +97,8 @@ function Esegui(conn, reply) {
 
 function Selezione_Partenza(reply,conn,request)
 {
-    righe=[];
-    riga={};
+    var righe=[];
+    var riga={};
 var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE I.Indirizzo=@partenza",function(err,rowcount){
     if(err)
     console.log(err)
@@ -99,5 +107,13 @@ var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indi
         reply(righe);
     }
 });
-//request.addParameter('partenza',TYPES.VarChar,request.que)
+request.addParameter('partenza',TYPES.VarChar,request.query.indirizzo);
+request.on('row',function(columns){
+    riga={};
+    columns.forEach(function(column){
+        riga[column.metadata.colName]=column.value;
+    })
+    righe.push(riga);
+});
+conn.execSql(request);
 }
