@@ -8,7 +8,6 @@ var config = {
             encrypt: true
 
         }
-
 };
 
 var Connection = require('tedious').Connection;
@@ -45,7 +44,14 @@ server.route({
     }
 });
 
-
+server.route({
+    method:'GET',
+    path:'/paperino',
+    handler:function(request,reply)
+    {
+        reply(request.query.nome);
+    }
+});
 
 server.start(function (err) {
     if (err) {
@@ -78,4 +84,20 @@ function Esegui(conn, reply) {
 
     });
     conn.execSql(request);
+}
+
+
+function Selezione_Partenza(reply,conn,request)
+{
+    righe=[];
+    riga={};
+var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE I.Indirizzo=@partenza",function(err,rowcount){
+    if(err)
+    console.log(err)
+    else{
+        console.log(rowcount+' rows');
+        reply(righe);
+    }
+});
+//request.addParameter('partenza',TYPES.VarChar,request.que)
 }
