@@ -56,7 +56,7 @@ server.route({
            }
            else{
                console.log('Connected to database');
-               Selezione_Partenza(reply,conn,request);
+               Selezione_Partenza(reply,conn,request.query.indirizzo);
            }
        });
     }
@@ -95,7 +95,7 @@ function Esegui(conn, reply) {
 }
 
 
-function Selezione_Partenza(reply,conn,request)
+function Selezione_Partenza(reply,conn,partenza)
 {
     var righe=[];
     var riga={};
@@ -107,7 +107,7 @@ var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indi
         reply(righe);
     }
 });
-request.addParameter('partenza',TYPES.VarChar,request.query.indirizzo);
+request.addParameter('partenza',TYPES.VarChar,partenza);
 request.on('row',function(columns){
     riga={};
     columns.forEach(function(column){
