@@ -46,7 +46,7 @@ server.route({
 
 server.route({
     method:'GET',
-    path:'/querypartenza',
+    path:'/indirizzopartenza',
     handler:function(request,reply){
        var conn=new Connection(config);
        conn.on('connect',function(err){
@@ -61,6 +61,26 @@ server.route({
        });
     }
 });
+
+server.route({
+    method:'GET',
+    path:'/indirizzoarrivo',
+    handler:function(request,reply){
+       var conn=new Connection(config);
+       conn.on('connect',function(err){
+           if(err)
+           {
+               console.log(err);
+           }
+           else{
+               console.log('Connected to database');
+               Selezione_Partenza(reply,conn,request.query.indirizzo);
+           }
+       });
+    }
+});
+
+
 server.start(function (err) {
     if (err) {
         console.log(err);
@@ -95,11 +115,11 @@ function Esegui(conn, reply) {
 }
 
 
-function Selezione_Partenza(reply,conn,partenza)
+function Selezione_Partenza(reply,conn,indirizzo)
 {
     var righe=[];
     var riga={};
-var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE I.Indirizzo=@partenza",function(err,rowcount){
+var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE I.Indirizzo=@indirizzo",function(err,rowcount){
     if(err)
     console.log(err)
     else{
@@ -107,7 +127,7 @@ var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indi
         reply(righe);
     }
 });
-request.addParameter('partenza',TYPES.VarChar,partenza);
+request.addParameter('indirizzo',TYPES.VarChar,indirizzo);
 request.on('row',function(columns){
     riga={};
     columns.forEach(function(column){
@@ -117,3 +137,4 @@ request.on('row',function(columns){
 });
 conn.execSql(request);
 }
+
