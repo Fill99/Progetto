@@ -1,10 +1,10 @@
 var config = {
-    userName: 'studente',
-    password: 'password.123',
-    server: 'server-progetto.database.windows.net',
+    userName: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER,
     options:
         {
-            database: 'Progetto',
+            database: process.env.DB_NAME,
             encrypt: true
 
         }
