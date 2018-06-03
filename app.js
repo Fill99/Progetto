@@ -184,7 +184,7 @@ function RicercaIndirizziPartenza(reply,conn,linea)
 {
     var riga={};
     var righe=[];
-    var request=new Request('SELECT I.Indirizzo FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE L.Id_Linea=@id',function(err,rowcount){
+    var request=new Request('SELECT I.Indirizzo FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE L.Id_Linea=@id ORDER BY I.Id_Indirizzo ASC',function(err,rowcount){
 if(err)
 console.log(err);
 else{
