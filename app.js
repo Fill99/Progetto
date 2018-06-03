@@ -191,8 +191,8 @@ else{
     console.log(rowcount+' rows');
     reply(righe);
 }
-request.addParameter('id',TYPES.Int,linea);
     });
+    request.addParameter('id',TYPES.Int,linea);
     request.on('row',function(columns){
         riga={};
         columns.forEach(function(column){
