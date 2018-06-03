@@ -160,7 +160,7 @@ conn.execSql(request);
 function RicercaIncroci(reply,conn,id1,id2){
     var righe=[];
     var riga={};
-    var request=new Request('SELECT I.Indirizzo,COUNT(I.indirizzo) FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE L.Id_Linea=@id1 OR L.Id_Linea=@id2 GROUP BY I.Indirizzo HAVING COUNT(I.Indirizzo)>=2',function(err,rowcount){
+    var request=new Request('SELECT I.Indirizzo FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE L.Id_Linea=@id1 OR L.Id_Linea=@id2 GROUP BY I.Indirizzo HAVING COUNT(I.Indirizzo)>=2',function(err,rowcount){
         if(err){
             console.log(err);
         }
