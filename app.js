@@ -184,7 +184,7 @@ function RicercaIncroci(reply,conn,id1,id2){
 function SelezioneLinea1(reply,conn,i1,i2){
     var righe=[];
     var riga={};
-    var request=new Request('SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE I.Indirizzo=@i1 OR I.Indirizzo=@i2 GROUP BY L.Id_Linea HAVING COUNT(*)>=2',function(err,rowcount){
+    var request=new Request("SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE I.Indirizzo LIKE '%'+@i1+'%' OR I.Indirizzo LIKE '%'+@i2+'%' GROUP BY L.Id_Linea HAVING COUNT(*)>=2",function(err,rowcount){
         if(err)
         console.log(err);
         else{
