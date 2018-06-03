@@ -81,6 +81,25 @@ server.route({
 });
 
 
+server.route({
+    method:'GET',
+    path:'/ricercaincroci',
+    handler:function(request,reply)
+    {
+        var conn=new Connection(config);
+        conn.on('connect',function(err){
+            if(err){
+                console.log(err);
+            }
+            else{
+                console.log('Database connected');
+                RicercaIncroci(reply,conn,request.query.id1,request.query.id2);
+            }
+        });
+    }
+});
+
+
 server.start(function (err) {
     if (err) {
         console.log(err);
@@ -136,5 +155,29 @@ request.on('row',function(columns){
     righe.push(riga);
 });
 conn.execSql(request);
+}
+
+function RicercaIncroci(reply,conn,id1,id2){
+    var righe=[];
+    var riga={};
+    var request=new Request('SELECT I.Indirizzo,COUNT(I.indirizzo) FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE L.Id_Linea=@id1 OR L.Id_Linea=@id2 GROUP BY COUNT(I.indirizzo) HAVING COUNT(I.Indirizzo)>=2',function(err,rowcount){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(rowcount+' rows');
+            reply(righe);
+        }
+    });
+    request.addParameter('id1',TYPES.Int,id1);
+    request.addParameter('id2',TYPES.Int,id2);
+    request.on('row',function(columns){
+        riga={};
+        columns.forEach(function(column){
+            riga[column.metadata.colName]=column.value;
+        })
+        righe.push(riga);
+    });
+    conn.execSql(request);
 }
 
