@@ -46,7 +46,7 @@ server.route({
 
 server.route({
     method:'GET',
-    path:'/indirizzo',
+    path:'/selezionelinea2',
     handler:function(request,reply){
        var conn=new Connection(config);
        conn.on('connect',function(err){
@@ -77,6 +77,22 @@ server.route({
             else{
                 console.log('Database connected');
                 RicercaIncroci(reply,conn,request.query.id1,request.query.id2);
+            }
+        });
+    }
+});
+
+server.route({
+    method:'GET',
+    path:'/selezionelinea1',
+    handler:function(request,reply){
+        var conn=new Connection(config);
+        conn.on('connect',function(err){
+            if(err)
+            console.log(err);
+            else{
+                console.log('Database connected');
+                SelezioneLinea1(reply,conn,request.query.indirizzo1,request.query.indirizzo2);
             }
         });
     }
@@ -154,6 +170,30 @@ function RicercaIncroci(reply,conn,id1,id2){
     });
     request.addParameter('id1',TYPES.Int,id1);
     request.addParameter('id2',TYPES.Int,id2);
+    request.on('row',function(columns){
+        riga={};
+        columns.forEach(function(column){
+            riga[column.metadata.colName]=column.value;
+        })
+        righe.push(riga);
+    });
+    conn.execSql(request);
+}
+
+
+function SelezioneLinea1(reply,conn,i1,i2){
+    var righe=[];
+    var riga={};
+    var request=new Request('SELECT L.Id_Linea FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo WHERE I.Indirizzo=@i1 OR I.Indirizzo=@i2 GROUP BY L.Id_Linea HAVING COUNT(*)>=2',function(err,rowcount){
+        if(err)
+        console.log(err);
+        else{
+            console.log(rowcount+' rows');
+            reply(righe);
+        }
+    });
+    request.addParameter('i1',TYPES.VarChar,i1);
+    request.addParameter('i2',TYPES.VarChar,i2);
     request.on('row',function(columns){
         riga={};
         columns.forEach(function(column){
