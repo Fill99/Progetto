@@ -104,7 +104,7 @@ method:'GET',
 path:'/selezioneindirizzi',
 handler:function(request,reply){
     var conn=new Connection(config);
-    conn.on('on',function(err){
+    conn.on('connect',function(err){
         if(err)
         console.log(err);
         else{
