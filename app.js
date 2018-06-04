@@ -239,5 +239,5 @@ function SelezioneIndirizzi(reply,conn){
         })
         righe.push(riga);
     });
-    conn.execSql(requets);
+    conn.execSql(request);
 }
