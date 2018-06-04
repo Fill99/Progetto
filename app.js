@@ -99,6 +99,22 @@ server.route({
 });
 
 
+server.route({
+method:'GET',
+path:'/selezioneindirizzi',
+handler:function(request,reply){
+    var conn=new Connection(config);
+    conn.on('on',function(err){
+        if(err)
+        console.log(err);
+        else{
+            console.log('Database connected');
+            SelezioneIndirizzi(reply,conn);
+        }
+    });
+}
+});
+
 server.start(function (err) {
     if (err) {
         console.log(err);
@@ -202,4 +218,26 @@ function SelezioneLinea1(reply,conn,i1,i2){
         righe.push(riga);
     });
     conn.execSql(request);
+}
+
+
+function SelezioneIndirizzi(reply,conn){
+    var riga={};
+    var righe=[];
+    var request=new Request('SELECT I.Indirizzo FROM Indirizzi',function(err,rowcount){
+        if(err)
+        console.log(err);
+        else{
+            console.log(rowcount+' rows');
+            reply(righe);
+        }
+    });
+    request.on('row',function(columns){
+        riga={};
+        columns.forEach(function(column){
+            riga[column.metadata.colName]=column.value;
+        })
+        righe.push(riga);
+    });
+    conn.execSql(requets);
 }
