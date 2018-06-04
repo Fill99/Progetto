@@ -224,7 +224,7 @@ function SelezioneLinea1(reply,conn,i1,i2){
 function SelezioneIndirizzi(reply,conn){
     var riga={};
     var righe=[];
-    var request=new Request('SELECT I.Indirizzo FROM Indirizzi',function(err,rowcount){
+    var request=new Request('SELECT I.Indirizzo FROM Indirizzi AS I',function(err,rowcount){
         if(err)
         console.log(err);
         else{
