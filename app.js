@@ -127,7 +127,7 @@ server.start(function (err) {
 
 function Esegui(conn, reply) {
     var righe = [];
-    var request = new Request('SELECT * FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo', function (err, rowcount) {
+    var request = new Request('SELECT * FROM Linee AS L INNER JOIN Linea_Indirizzo AS LI ON L.Id_Linea=LI.Id_Linea INNER JOIN Indirizzi AS I ON LI.Id_Indirizzo=I.Id_Indirizzo ORDER BY L.Id_Linea ASC', function (err, rowcount) {
         if (err) {
             console.log(err);
         }
